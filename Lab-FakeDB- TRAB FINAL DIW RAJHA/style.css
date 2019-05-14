@@ -1,0 +1,54 @@
+body{
+    background-color: rgb(233, 233, 230);
+    /*background-color: rgb(214, 214, 228);*/
+}
+
+#botaoIncluir{            
+    position: relative;
+    top: 15%;
+    right: 0%;
+    left: 82%;
+    bottom: 250%
+} 
+
+h2
+{
+ text-align: center
+    
+}
+
+label {
+    font-weight: bolder;
+}
+::placeholder {
+    color: lightskyblue !important;
+    opacity: 3;
+}
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:  lightskyblue !important;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:  lightskyblue !important;
+    opacity:  3;
+ }
+
+ .top{
+    margin: 50px;
+    padding: 50px;
+    background-image: linear-gradient(rgb(124, 123, 123), rgb(233, 233, 230));
+ }
+ h1 {
+     text-align: center;
+     font-size: 75px;
+     color:  rgb(124, 123, 123);
+      
+ }
+ th{
+    color:  rgb(124, 123, 123);
+ }
+ #msg {
+     height: 60px;
+ }
+ #grid-contatos tbody {
+     cursor: pointer;
+ }

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hamburguerias de BH</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<style>
+    body {font-family: Arial, Helvetica, sans-serif;}
+        
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .foto{
+           float: right;
+           width: 200PX;
+        }
+        </style>
+
+<body onload="init()">
+<div class="top">
+    <h1>Hamburguerias de BH</h1>
+</div>
+
+    <div class="form-group row">
+        <div class="col-sm-12" id=botaoIncluir>
+            <input type="button" class="btn btn-success"  value="Incluir" onclick="abrirFormulario()">
+        </div>
+    </div>
+
+    <div class="container">
+        <!--POSSO PAGAR ISSO?-->
+        <div class="row">
+            <div id="msg" class="col-sm-10 offset-sm-1 ">
+                <!--<div class="alert alert-warning">Contato não encontrado.</div>-->
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-14">
+                <table id="grid-contatos" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Restaurante</th>
+                            <th scope="col">Telefone</th>
+                            <th scope="col">Endereço</th>
+                            <th scope="col">Operações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-contatos">
+                        <tr>
+                            <td scope="row">1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fechar modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span onclick="fechaModal()" class="close">&times;</span>
+            <div id="conteudo" style="display:inline-block"></div>
+            <div class="col-3" id="image" style="float:right"> </div>
+        </div>
+    </div>
+
+    <!-- Modal para ALTERAR cadastro -->
+    <div id="myModal2" class="modal">
+        <div class="modal-content">
+            <span onclick="fechaModalAltera()" class="close">&times;</span>
+            
+            <form id="form-contato"> <!--formulario cadastro-->
+                <div class="form-group row">
+                    <div class="col-sm-8">
+                        <label for="inputNome">Nome do Restaurante (*)</label>
+                        <input type="text" class="form-control" id="inputNome2" required placeholder="Informe o nome do estabelecimento">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-5">
+                        <label for="inputTelefone">Telefone (*)</label>
+                        <input type="text" class="form-control" id="inputTelefone2" required placeholder="Telefone">
+                    </div>
+                    <div class="col-sm-7">
+                        <label for="inputEndereco">Endereço (*)</label>
+                        <input type="text" class="form-control" id="inputEndereco2" required placeholder="Informe o endereço">
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="inputSite">Web Site (*)</label>
+                        <input type="text" class="form-control" id="inputSite2" required placeholder="Web Site">
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="inputFoto">Foto</label>
+                        <input type="text" class="form-control" id="inputFoto2" placeholder="URL da Foto">
+                    </div>
+                    <div class="col-sm-12">
+                            <label for="inputHorario">Horário de Funcionamento</label>
+                            <input type="text" class="form-control" id="inputHorario2" placeholder="Horário">
+                    </div>
+                    <div class="col-sm-1">
+                            <label for="inputId">Id</label>
+                            <input type="text" class="form-control" id="inputId2" disabled placeholder="id">
+                     </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <small>(*) Campos obrigatórios</small>
+                </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <input type="button" class="btn btn-success d-inline-block" id="btnAltera" value="Alterar">
+                        <input type="button" class="btn btn-danger d-inline-block" id="btnCancela" value="Cancelar" onclick="fechaModalAltera()">
+
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para o formulário de INSERÇÃO de novos restaurantes -->
+    <div id="myModal3" class="modal">
+        <div class="modal-content">
+            <span onclick="fechaModal3()" class="close">&times;</span>
+            <div class="formulario">
+                <h2>Incluir novos restaurantes:</h2>
+                <form id="form-contato3">
+                        <div id="msg" class="col-sm-10 offset-sm-1 msg">
+                                <!--<div class="alert alert-warning">Contato não encontrado.</div>-->
+                        </div>
+                    <div class="form-group row">
+
+                        <div class="col-sm-8">
+                            <label for="inputNome">Nome do Restaurante (*)</label>
+                            <input type="text" class="form-control" id="inputNome3" required placeholder="Informe o nome do estabelecimento">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-5">
+                            <label for="inputTelefone">Telefone (*)</label>
+                            <input type="text" class="form-control" id="inputTelefone3" required placeholder="Telefone">
+                        </div>
+                        <div class="col-sm-7">
+                            <label for="inputEmail">Endereço (*)</label>
+                            <input type="text" class="form-control" id="inputEndereco3" required placeholder="Informe o endereço">
+                        </div>
+                        <div class="col-sm-12">
+                            <label for="inputSite">Web Site (*)</label>                            
+                            <input type="text" class="form-control" id="inputSite3" required placeholder="Web Site">
+                        </div>
+                        <div class="col-sm-12">
+                            <label for="inputSite">Foto</label>                            
+                            <input type="text" class="form-control" id="inputFoto3" placeholder="URL da Foto">
+                        </div>
+                        <div class="col-sm-12">
+                                <label for="inputSite">Horário de Funcionamento</label>                                
+                                <input type="text" class="form-control" id="inputHorario3" placeholder="Horário">
+                            </div>                        
+                        </div>
+                        <div class="col-sm-1">
+                                <label for="inputId">id</label>
+                                <input type="text" class="form-control" id="inputId3" disabled placeholder="Id">
+                         </div>
+                         <br>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                                <input type="button" class="btn btn-success"  id="btnInsert" value="Confirmar">
+                                <input type="button" class="btn btn-danger d-inline-block" id="btnCancela" value="cancelar" onclick="fechaModal3()">
+                                <small>(*) Campos obrigatórios</small>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="fakedb.js"></script>
+    <script>
+        function exibeContatos() {
+            // Remove todas as linhas do corpo da tabela
+            $("#table-contatos").html("");
+
+            // Popula a tabela com os registros do banco de dados
+            for (i = 0; i < db.data.length; i++) {
+                let contato = db.data[i];
+                $("#table-contatos").append(`<tr ><td ><a href="#" onclick="mostraModal(${contato.id})" class="d">${contato.nome}</a></td><td>${contato.telefone}</td><td>${contato.endereço}</td> <td>
+                    <a onclick="update(${contato.id})" class="d-inline-block" href="#" >Alterar</a> 
+                    <a href="#" onclick="apaga(${contato.id})" class="btn btn-link d-inline-block" id="btnDelete" value="Excluir">Excluir</a> </td></tr>`);
+            }
+        }
+
+        function init() {
+            //Adiciona funções para tratar os eventos 
+            $("#btnInsert").click(function () {
+
+                // Verfica se o formulário está preenchido corretamente
+                if (!$('#form-contato3')[0].checkValidity()) {
+                    displayMessage("Preencha o formulário corretamente.");
+
+                    return;
+                }
+
+                // Obtem os valores dos campos do formulário
+                let campoNome = $("#inputNome3").val();
+                let campoTelefone = $("#inputTelefone3").val();
+                let campoEndereco = $('#inputEndereco3').val();
+                let campoSite = $('#inputSite3').val();
+                let campoFoto = $("#inputFoto3").val();
+                let campoHorario = $("#inputHorario3").val();
+                let contato = { nome: campoNome, telefone: campoTelefone, endereço: campoEndereco, website: campoSite, foto:campoFoto, horario:campoHorario};
+
+                insertContato(contato);
+
+                // Reexibe os contatos
+                exibeContatos();
+
+                // Limpa o formulario
+                $("#form-contato3")[0].reset();
+                fechaModal3();
+            });
+
+            // Oculta a mensagem de aviso após alguns segundos
+            $('#msg').bind("DOMSubtreeModified", function () {
+                window.setTimeout(function () {
+                    $(".alert").fadeTo(500, 0).slideUp(500, function () {
+                        $(this).remove();
+                    });
+                }, 5000);
+            });
+
+            exibeContatos();
+        }
+    </script>
+
+
+    <script>    //modal
+        var modal = $('#myModal');
+        var modalAltera = $('#myModal2');     
+        var btn = $("#myBtn");        
+        var span = $(".close")[0];
+        
+        function mostraModal(id) {
+            $("#conteudo").html("");
+            modal.addClass("d-block")
+            for (i = 0; i < db.data.length; i++) {
+                let contato = db.data[i];
+                if (contato.id == id) {
+                    $("#conteudo").html(`<img class="foto" src="${contato.foto}">`)
+                    $("#conteudo").append(`<h3>NOME : ${contato.nome}</h3><br><h3>TELEFONE : ${contato.telefone}</h3><br><h3> ENDEREÇO : ${contato.endereço}</h3><br><h3> SITE : <a href="${contato.website}">${contato.website}</a></h3><br><h3>HORÁRIO DE FUNCIONAMENTO : ${contato.hora}</h3><br><h3>RANKING : ${contato.id}</h3><br>`)
+                  
+                    return;
+                }
+            }
+        }
+        
+        function fechaModal() {
+            modal.removeClass("d-block");
+        }
+
+        function fechaModalAltera() {
+            modalAltera.removeClass("d-block");
+
+            
+        }
+
+        function abrirFormulario() {
+            $("#myModal3").addClass("d-block");
+            altera(-1)
+        
+        }
+        function fechaModal3(){
+            $("#myModal3").removeClass("d-block");
+        }
+       
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        var teste;
+
+        function update(id) {
+            teste = id;
+            $("#conteudo").html("");
+            modalAltera.addClass('d-block')
+            for (i = 0; i < db.data.length; i++) {
+                let contato = db.data[i];
+                if (contato.id == id) {
+                    $("#inputNome2").val(contato.nome);
+                    $("#inputTelefone2").val(contato.telefone);
+                    $("#inputEndereco2").val(contato.endereço);
+                    $('#inputSite2').val(contato.website);                   
+                    $("#inputFoto2").val(contato.foto);
+                    $('#inputHorario2').val(contato.hora);
+                    $('#inputId2').val(contato.id);
+                }
+            }
+            $("#btnAltera").click(function () {
+                altera(teste);
+            })
+        }
+
+        function altera(id) {
+
+            let campoId = id
+            
+            let campoNome = $("#inputNome2").val();
+            let campoTelefone = $("#inputTelefone2").val();
+            let campoEndereco = $("#inputEndereco2").val();
+            let campoSite = $('#inputSite2').val();
+            let campoHorario = $('#inputHorario2').val();
+            let campoId2 = $('#inputId2').val();
+            let campoFoto2 = $('#inputFoto2').val();
+            let contato = { nome: campoNome, telefone: campoTelefone, endereço: campoEndereco, website: campoSite, hora: campoHorario, id: campoId2, foto: campoFoto2};
+            updateContato(parseInt(id), contato);
+            exibeContatos();
+            modalAltera.removeClass("d-block")
+        }
+
+        function apaga(id) {
+            deleteContato(id);
+
+            // Reexibe os contatos
+            exibeContatos();
+
+        }
+        
+
+    </script>
+</body>
+
+</html>
